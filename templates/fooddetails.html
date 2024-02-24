@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<hr>
+    <h1>{% block title %} {{ food['name'] }}{% endblock %}</h1>
+        <p>【俗名】{{ food['nickname'] }}</p>
+        <p>【性味】{{ food['taste'] }}</p>
+        <p>【功效】{{ food['efficacy'] }}</p>
+        <p>【宜食】{{ food['suitable_for'] }}</p>
+        <p>【忌食】{{ food['not_suitable_for'] }}</p>
+        <p>【按語】{{ food['note'] }}</p>
+        <hr>
+{% endblock %}
