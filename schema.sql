@@ -13,6 +13,8 @@ CREATE TABLE FoodInfo (
     suitable_for TEXT,
     not_suitable_for TEXT,
     note TEXT,
+    image BLOB,
+    thumbnail BLOB,
     FOREIGN KEY (category_id) REFERENCES Food_Category(id)
 );
 

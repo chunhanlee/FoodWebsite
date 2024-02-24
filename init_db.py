@@ -1,9 +1,17 @@
 import sqlite3
+import base64
 
 connection = sqlite3.connect('database.db')
 
 with open('schema.sql') as f:
     connection.executescript(f.read())
+
+with open('./images/糯米.jpg', 'rb') as picture_file, open('./images/糯米.jpg', 'rb') as thumbnail_file:
+    pic_data = picture_file.read()
+    #need to use decode utf-8 to turn byte object back to string
+    image_data = base64.b64encode(pic_data).decode('utf-8')
+    thumb_data = thumbnail_file.read()
+    thumbnail_data = base64.b64encode(thumb_data).decode('utf-8')
 
 cur = connection.cursor()
 cur.execute("INSERT INTO Food_Category (name) VALUES (?)",('穀類飲食宜忌',))
@@ -11,7 +19,7 @@ cur.execute("INSERT INTO Food_Category (name) VALUES (?)",('果類飲食宜忌',
 cur.execute("INSERT INTO Food_Category (name) VALUES (?)",('菜類飲食宜忌',))
 cur.execute("INSERT INTO Food_Category (name) VALUES (?)",('其他飲食宜忌',))
 
-cur.execute("INSERT INTO FoodInfo (category_id, name, nickname, taste, efficacy, suitable_for, not_suitable_for, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+cur.execute("INSERT INTO FoodInfo (category_id, name, nickname, taste, efficacy, suitable_for, not_suitable_for, note, image, thumbnail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             ('1', 
              '粳 米(附 ：米油）',
              '大米',
@@ -19,10 +27,12 @@ cur.execute("INSERT INTO FoodInfo (category_id, name, nickname, taste, efficacy,
              '補中益氣,健脾養胃',
              '適宜一切體虛之人及常人食用;適宜高熱之人,或久病初癒，或婦女產後以及老年人、嬰幼兒消化力減弱者，煮成稀粥調養食用。《本草經疏》：“粳米，為五穀之長，人相須賴以為命者也。”《醫藥六書藥性總義》：“粳米粥，為資生化育神丹。”《滇南本草》：“粳米治諸虛百損，強陰壯骨,生津、明目、長智。”《隨息居飲食譜》：“粳米甘平，宜煮粥食,粥飯為世間第一補人之物。貧人患虛證，以濃米湯代參湯，每收奇效。”病人產婦，粥養最宜。凡煮粥宜用井泉水，則味更佳也。',
              '粳米甘平，健脾益胃，諸無所忌。但糖尿病患者不宜多食。患有乾燥綜合徵、更年期綜合徵屬陰虛火旺者，以及癰腫疔瘡熱毒熾盛者，忌食爆米花，因爆米花易傷陰助火。唐•孟詵：“粳米不可同馬肉食，發痼疾。不可和蒼耳食，令人卒心痛。”清•王孟英：“炒米雖香，性燥助火，非中寒便瀉者忌之。”',
-             '米油俗稱米湯、粥油，為煮水粥時,浮於鍋面上的濃稠液體,性平味甘，大能補虛，老幼咸宜,病後產後體弱之人尤為適合。 《本草綱目拾遺》云：“米油滋陰長力,肥五臟百竅。力能實毛竅，最肥人。”《隨息居飲食譜》曰：“補液填精，有裨贏老。”另外，《紫桂單方》中有對男子精少不育的專門論述：“治精清不孕：煮米粥滾，鍋中面上米沫浮面者，取起加煉過食鹽少許，空心服下，其精自濃。”據營養學家分析,粳米中含多量的澱粉、蛋白質、脂肪和多種有機酸，如乙酸、蘋果酸、檸檬酸、琥珀酸、甘醇酸、延胡素酸等;還含有醣類，如葡萄糖、果糖、麥芽糖等;含磷較多,鈣較少。'
+             '米油俗稱米湯、粥油，為煮水粥時,浮於鍋面上的濃稠液體,性平味甘，大能補虛，老幼咸宜,病後產後體弱之人尤為適合。 《本草綱目拾遺》云：“米油滋陰長力,肥五臟百竅。力能實毛竅，最肥人。”《隨息居飲食譜》曰：“補液填精，有裨贏老。”另外，《紫桂單方》中有對男子精少不育的專門論述：“治精清不孕：煮米粥滾，鍋中面上米沫浮面者，取起加煉過食鹽少許，空心服下，其精自濃。”據營養學家分析,粳米中含多量的澱粉、蛋白質、脂肪和多種有機酸，如乙酸、蘋果酸、檸檬酸、琥珀酸、甘醇酸、延胡素酸等;還含有醣類，如葡萄糖、果糖、麥芽糖等;含磷較多,鈣較少。',
+             image_data,
+             thumbnail_data
              )
             )
-cur.execute("INSERT INTO FoodInfo (category_id, name, nickname, taste, efficacy, suitable_for, not_suitable_for, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+cur.execute("INSERT INTO FoodInfo (category_id, name, nickname, taste, efficacy, suitable_for, not_suitable_for, note, image, thumbnail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             ('1', 
              '糯 米',
              '元米、江米',
@@ -30,7 +40,9 @@ cur.execute("INSERT INTO FoodInfo (category_id, name, nickname, taste, efficacy,
              '補中益氣，健脾養胃，止虛汗',
              '適宜體虛自汗、盜汗、多汗、血虛頭暈眼花,脾虛腹瀉之人食用;適宜肺結核、神經衰弱，病後產後之人食用。宜煮稀薄粥服食，不僅營養滋補，且極易消化吸收，養胃氣。唐•孫思邈：“脾病宜食，益氣止洩。”《醫藥六書藥性總義》：“糯米粥為溫養胃氣妙品。”《本經逢原》：“糯米，益氣補脾肺，但磨粉作稀糜,庶不黏滯，且利小便。”《本草綱目》：“脾肺虛寒者宜之。”',
              '凡濕熱痰火偏盛之人忌食;凡發熱，咳嗽痰黃、黃疸、腹脹之人忌食;糯米黏膩，若作糕餅，更難消化，故嬰幼兒及老年人和病後消化力弱者忌食糯米糕餅;糖尿病患者亦應適當忌食。 《本草綱目》：“糯米黏滯難化，小兒、病人最宜忌之。”《本草求真》：“凡老人小兒病後均忌。”《本經逢原》：“糯米，若作糕餅，性難運化,病人莫食。”《得配本草》：“多食昏五臟，緩筋骨，發風氣,生濕熱，素有痰熱風病及脾病不能轉輸者食之最能發病成積，病人及小兒最宜忌之。”《飲食須知》：“多食發熱，壅經絡之氣，令身軟筋緩，久食發心悸及癰疽瘡癤中痛。同酒食之，令醉難醒。”',
-             '糯米為糯稻之種仁，它含有蛋白質， 脂肪 ，醣類 ，鈣、磷、鐵，維生素 B1、維生素 B2、菸酸及澱粉等，營養豐富，為溫補強壯食品。'
+             '糯米為糯稻之種仁，它含有蛋白質， 脂肪 ，醣類 ，鈣、磷、鐵，維生素 B1、維生素 B2、菸酸及澱粉等，營養豐富，為溫補強壯食品。',
+             image_data,
+             thumbnail_data
              )
             )
 

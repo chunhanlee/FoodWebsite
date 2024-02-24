@@ -1,4 +1,5 @@
 import sqlite3
+import base64
 from flask import Flask, render_template
 from werkzeug.exceptions import abort
 
