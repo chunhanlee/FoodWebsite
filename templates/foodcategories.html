@@ -3,7 +3,7 @@
 {% block content %}
     <h1>{% block title %} 榖 果 菜 飲食宜忌 {% endblock %}</h1>
     {% for category in foodCategories %}
-    <a href="{{ url_for('food_by_categories', category_id=category['id']) }}">
+    <a href="{{ url_for('food.food_by_categories', category_id=category['id']) }}">
         <h2>{{ category['name'] }}</h2>
     </a>
     

@@ -6,7 +6,7 @@ connection = sqlite3.connect('database.db')
 with open('schema.sql') as f:
     connection.executescript(f.read())
 
-with open('./images/糯米.jpg', 'rb') as picture_file, open('./images/糯米.jpg', 'rb') as thumbnail_file:
+with open('/var/lib/sqlite/images/糯米.jpg', 'rb') as picture_file, open('/var/lib/sqlite/images/糯米.jpg', 'rb') as thumbnail_file:
     pic_data = picture_file.read()
     #need to use decode utf-8 to turn byte object back to string
     image_data = base64.b64encode(pic_data).decode('utf-8')

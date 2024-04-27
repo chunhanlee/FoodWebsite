@@ -1,0 +1,24 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+    volumes:
+      - ./images:/app/images
+  db:
+    image: python:latest
+    working_dir: /app
+    volumes:
+      - ./database.db:/var/lib/sqlite/database.db
+      - ./schema.sql:/app/schema.sql
+      - ./init_db.py:/app/init_db.py
+      - ./images:/var/lib/sqlite/images
+    stdin_open: true
+    tty: true
+    command: python /app/init_db.py --initialize && sleep infinity
