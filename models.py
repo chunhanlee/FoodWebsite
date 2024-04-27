@@ -25,33 +25,9 @@ class Food_Category(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String)    
 
-class User(Base):
-    __tablename__ = 'user'
-    id = Column(Integer,primary_key=True)
-    username = Column(String)
-    password = Column(String)
-
-    @validates('username')
-    def validate_username(self, key, username):
-        if not username:
-            raise ValueError("Username cannot be empty")
-        return username
-    
-    @validates('password')
-    def validate_password(self, key, password):
-        if not password:
-            raise ValueError("Password cannot be empty")
-        return password
-    
-    @classmethod
-    def get_by_username(cls, username):
-        return session.query(cls).filter_by(username==username).first()
 
 Session = sessionmaker(bind=engine)
 session = Session()
-
-def user_filter_by(username):
-    return session.query(User).filter_by(username).first()
 
 def get_categoryList():
     return session.query(Food_Category).all()

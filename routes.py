@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, request, session
-from flask_session import Session
-from models import get_categoryList, get_foodList, get_categoryName, User, get_food
+from models import get_categoryList, get_foodList, get_categoryName, get_food
 
 bp = Blueprint('food', __name__)
 
@@ -12,16 +11,6 @@ def index():
 def intro():
     return render_template('intro.html')
 
-@bp.route('/login', methods=['POST'])
-def login():
-    username = request.form['username']
-    password = request.form['password']
-    user = User.get_by_username(username)
-    if user and user.password == password:
-        session['user_id'] = user.id
-        return 'Logged in successfully'
-    return 'Invalid credentials', 401
-
 # @bp.route('/<int:food_id>')
 # def details(food_id):
 #     food = FoodInfo.query.get_or_404(food_id)
@@ -31,8 +20,6 @@ def login():
 def food_categories():
     foodCategories = get_categoryList()
     return render_template('foodcategories.html', foodCategories=foodCategories)
-
-
 
     # conn = get_db_connection()
     # foodCategories = conn.execute('SELECT * FROM Food_Category').fetchall()
