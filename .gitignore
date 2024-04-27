@@ -1,8 +1,8 @@
-__pycache__
+__pycache__/
 .vscode/
 Thumbs.db
 *.pyc
 node_modules/
 venv/
-.env
+*.env
 env/
