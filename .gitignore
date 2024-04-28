@@ -6,3 +6,5 @@ node_modules/
 venv/
 *.env
 env/
+docker-compose.yml
+Dockerfile

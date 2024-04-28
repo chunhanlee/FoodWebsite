@@ -1,8 +1,8 @@
-from sqlalchemy import create_engine, Column, Integer, String, Text, BLOB
+from sqlalchemy import create_engine, Column, Integer, String, Text, BLOB, or_
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, validates
 
-engine = create_engine ('postgresql://postgres:postgres@localhost:5432/food_website')
+engine = create_engine ('postgresql://postgres:mypgdbpass@postgres:5432/food_website')
 
 Base = declarative_base()
 
@@ -28,6 +28,16 @@ class Food_Category(Base):
 
 Session = sessionmaker(bind=engine)
 session = Session()
+
+def searchText(search_query):
+    return session.query(FoodInfo).filter(
+        or_(FoodInfo.name.ilike(f"%{search_query}%"),
+            FoodInfo.nickname.ilike(f"%{search_query}%"),
+            FoodInfo.efficacy.ilike(f"%{search_query}%"),
+            FoodInfo.suitable_for.ilike(f"%{search_query}%"),
+            FoodInfo.not_suitable_for.ilike(f"%{search_query}%"),
+            FoodInfo.note.ilike(f"%{search_query}%")
+        )).all()
 
 def get_categoryList():
     return session.query(Food_Category).all()

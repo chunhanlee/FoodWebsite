@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{% block title %} Search {% endblock %}</h1>
+{% if foods %}
+<ul class="list-group">
+    {% for food in foods %}
+    <li class="list-group-item">
+        <a href="{{ url_for('food.fooddetails', food_id=food['id'], category_id=food['category_id']) }}" class="h2"
+            target="_blank">
+            {{ food.name.replace(search_query, "<span style='background-color: yellow'>" + search_query +
+                "</span>")|safe }}
+        </a>
+        {% if food.nickname %}
+        <p class="pt-4">【俗名】{{ food.nickname.replace(search_query, "<span style='background-color: yellow'>" + search_query +
+                "</span>")|safe }}</p>
+        {% endif %}
+        {% if food.efficacy %}
+        <p>【功效】{{ food.efficacy.replace(search_query, "<span style='background-color: yellow'>" + search_query +
+                "</span>")|safe }}</p>
+        {% endif %}
+        {% if food.suitable_for %}
+        <p>【宜食】{{ food.suitable_for.replace(search_query, "<span style='background-color: yellow'>" + search_query +
+                "</span>")|safe }}
+        </p>
+        {% endif %}
+        {% if food.not_suitable_for %}
+        <p>【忌食】{{ food.not_suitable_for.replace(search_query, "<span style='background-color: yellow'>" + search_query +
+                "</span>")|safe }}
+        </p>
+        {% endif %}
+        {% if food.note %}
+        <p>【按語】{{ food.note.replace(search_query, "<span style='background-color: yellow'>" + search_query +
+                "</span>")|safe }}
+        </p>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No results found.</p>
+{% endif %}
+{% endblock %}

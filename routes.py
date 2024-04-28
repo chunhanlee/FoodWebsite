@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, session
-from models import get_categoryList, get_foodList, get_categoryName, get_food
+from models import get_categoryList, get_foodList, get_categoryName, get_food, searchText
 
 bp = Blueprint('food', __name__)
 
@@ -10,6 +10,14 @@ def index():
 @bp.route('/intro')
 def intro():
     return render_template('intro.html')
+
+@bp.route('/search', methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+        search_query = request.form['query']
+        foods = searchText(search_query)
+        return render_template('search.html', foods=foods, search_query=search_query)
+    return render_template('search.html')
 
 # @bp.route('/<int:food_id>')
 # def details(food_id):
@@ -41,7 +49,7 @@ def food_by_categories(category_id):
 @bp.route('/foodcategories/foods/<int:category_id>/<int:food_id>')
 def fooddetails(category_id,food_id):
     food = get_food(food_id)
-    return render_template('foodDetails.html', food=food)
+    return render_template('fooddetails.html', food=food)
 
 # @app.route('/foodcategories/foods/<int:category_id>/<int:food_id>')
 # def fooddetails(category_id,food_id):
